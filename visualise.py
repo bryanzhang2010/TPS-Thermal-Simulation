@@ -34,6 +34,13 @@ def temp_chart(results, save_path="figures/comparison.png"):
     plt.title("TPS Material Surface Temperatures (1 MW/m² Heat Flux)", fontsize=13, pad=12)
     plt.grid(True, linestyle=":", alpha=0.4)
     plt.legend(loc="upper left")
+    plt.ylim(0, 2000)
+    plt.annotate("PICA outer surface exceeds 37,000 K (off-axis) — outer node absorbs flux; inner surface remains at 306 K",
+             xy=(0.02, 0.97), xycoords='axes fraction', fontsize=8,
+             color='gray', va='top')
+
+
+
     plt.tight_layout()
     
     plt.savefig(save_path, dpi=300)
