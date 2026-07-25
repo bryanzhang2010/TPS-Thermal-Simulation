@@ -44,7 +44,9 @@ def apply_bc(T_new, T_old, mat, boundary_cfg, grid_cfg, dt):
     r = alpha * dt / (dx ** 2)
 
     # Outer boundary (Heat flux in)
-    T_new[0] = T_old[0] + r * (2 * T_old[1] - 2 * T_old[0] + (2 * dx * q / k))
+    T_new[0] = T_old[0] + (2 * alpha * dt / dx**2) * (T_old[1] - T_old[0]) + (2 * dt * q) / (mat["rho"] * mat["cp"] * dx)
+
+
 
     # Inner boundary (Insulated back face)
     T_new[-1] = T_old[-1] + r * (2 * T_old[-2] - 2 * T_old[-1])
