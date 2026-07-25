@@ -9,7 +9,7 @@ from solver import run_sim
 def analytical_solution(x, t, mat, boundary_cfg):
     """
     Computes exact closed-form solution for a semi-infinite solid with constant heat flux.
-    T(x,t) = T0 + (2q/k)*sqrt(alpha*t/pi)*exp(-x^2/(4*alpha*t)) - (q*x/k)*erfc(x / (2*sqrt(alpha*t)))[cite: 1]
+    T(x,t) = T0 + (2q/k)*sqrt(alpha*t/pi)*exp(-x^2/(4*alpha*t)) - (q*x/k)*erfc(x / (2*sqrt(alpha*t)))
     """
     if t <= 0:
         return np.full_like(x, boundary_cfg["T_init"])
@@ -27,9 +27,9 @@ def analytical_solution(x, t, mat, boundary_cfg):
 
 def validate(mat, boundary_cfg, grid_cfg, t_eval=2.0):
     """
-    Compares numerical FD result against analytical semi-infinite solution[cite: 1].
-    Evaluated at t_eval before back-boundary thermal reflections occur[cite: 1].
-    Returns max percentage error across nodes[cite: 1].
+    Compares numerical FD result against analytical semi-infinite solution.
+    Evaluated at t_eval before back-boundary thermal reflections occur.
+    Returns max percentage error across nodes.
     """
     frames, times = run_sim(mat, boundary_cfg, grid_cfg)
     
@@ -54,7 +54,7 @@ def validate(mat, boundary_cfg, grid_cfg, t_eval=2.0):
 
 def compare_materials(material_lib, boundary_cfg, grid_cfg):
     """
-    Runs solver for each material and extracts metrics for paper results[cite: 1].
+    Runs solver for each material and extracts metrics for paper results.
     """
     results = {}
     for name, mat in material_lib.items():
@@ -84,7 +84,7 @@ def compare_materials(material_lib, boundary_cfg, grid_cfg):
 
 def param_sweep(sweep_type, values, material_lib, boundary_cfg, grid_cfg, mat_name="pica"):
     """
-    Executes parameter sweeps for thickness or incident heat flux[cite: 1].
+    Executes parameter sweeps for thickness or incident heat flux.
     """
     results = {"values": values, "T_inner_max": []}
     mat = material_lib[mat_name]

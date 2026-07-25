@@ -1,6 +1,6 @@
 """
 solver.py — Pure 1D Finite Difference Thermal Solver.
-Handles explicit time stepping and boundary condition enforcement[cite: 1].
+Handles explicit time stepping and boundary condition enforcement.
 """
 
 import numpy as np
@@ -10,19 +10,19 @@ from config import get_stable_dt
 # MODEL LIMITATION & ASSUMPTION CAVEAT: PICA ABLATION
 # ------------------------------------------------------------------------------
 # This solver models Phenolic-Impregnated Carbon Ablator (PICA) purely as a 
-# static, non-ablating solid conducting heat via Fourier's Law[cite: 1]. 
+# static, non-ablating solid conducting heat via Fourier's Law. 
 #
 # Real-world PICA experiences endothermic chemical pyrolysis, gas blowing, 
-# and surface recession under extreme heat fluxes (>1 MW/m²)[cite: 1]. By omitting 
+# and surface recession under extreme heat fluxes (>1 MW/m²). By omitting 
 # active ablation and recession mass loss, this model provides a conservative, 
-# baseline lower-bound estimate of thermal insulation performance[cite: 1].
+# baseline lower-bound estimate of thermal insulation performance.
 # 
-# Reference: NASA SP-8014 (Aerothermodynamic Ablation)[cite: 1]
+# Reference: NASA SP-8014 (Aerothermodynamic Ablation)
 # ==============================================================================
 
 
 def fd_step(T, alpha, dt, dx):
-    """Performs one explicit 1D finite difference step for interior nodes[cite: 1]."""
+    """Performs one explicit 1D finite difference step for interior nodes."""
     T_new = T.copy()
     r = alpha * dt / (dx ** 2)
     
@@ -33,9 +33,9 @@ def fd_step(T, alpha, dt, dx):
 
 def apply_bc(T_new, T_old, mat, boundary_cfg, grid_cfg, dt):
     """
-    Applies boundary conditions[cite: 1]:
-      - Outer (i=0): Applied heat flux Neumann BC (q_flux)[cite: 1]
-      - Inner (i=N-1): Insulated Neumann BC (dT/dx = 0)[cite: 1]
+    Applies boundary conditions:
+      - Outer (i=0): Applied heat flux Neumann BC (q_flux)
+      - Inner (i=N-1): Insulated Neumann BC (dT/dx = 0)
     """
     k = mat["k"]
     alpha = k / (mat["rho"] * mat["cp"])
@@ -43,10 +43,10 @@ def apply_bc(T_new, T_old, mat, boundary_cfg, grid_cfg, dt):
     q = boundary_cfg["q_flux"]
     r = alpha * dt / (dx ** 2)
 
-    # Outer boundary (Heat flux in)[cite: 1]
+    # Outer boundary (Heat flux in)
     T_new[0] = T_old[0] + r * (2 * T_old[1] - 2 * T_old[0] + (2 * dx * q / k))
 
-    # Inner boundary (Insulated back face)[cite: 1]
+    # Inner boundary (Insulated back face)
     T_new[-1] = T_old[-1] + r * (2 * T_old[-2] - 2 * T_old[-1])
 
     return T_new
@@ -54,8 +54,8 @@ def apply_bc(T_new, T_old, mat, boundary_cfg, grid_cfg, dt):
 
 def run_sim(mat, boundary_cfg, grid_cfg, save_every=100):
     """
-    Runs full time-stepping loop for a given material[cite: 1].
-    Returns saved temperature frames and time stamps[cite: 1].
+    Runs full time-stepping loop for a given material.
+    Returns saved temperature frames and time stamps.
     """
     alpha = mat["k"] / (mat["rho"] * mat["cp"])
     dx = grid_cfg["DX"]
@@ -78,7 +78,7 @@ def run_sim(mat, boundary_cfg, grid_cfg, save_every=100):
         T = T_next
         t += dt
         
-        # Save frame periodically for visualization and analysis[cite: 1]
+        # Save frame periodically for visualization and analysis
         if step % save_every == 0 or step == total_steps:
             frames.append(T.copy())
             times.append(min(t, duration))
