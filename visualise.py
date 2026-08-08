@@ -13,7 +13,7 @@ plt.style.use('dark_background')
 def temp_chart(results, save_path="figures/comparison.png"):
     """
     Plots outer vs inner surface temperatures for all materials over time.
-    Saves figure to disk[cite: 1].
+    Saves figure to disk.
     """
     os.makedirs(os.path.dirname(save_path), exist_ok=True)
     plt.figure(figsize=(10, 6))
@@ -50,7 +50,7 @@ def temp_chart(results, save_path="figures/comparison.png"):
 
 def validation_plot(x, fd, exact, t_actual, save_path="figures/validation.png"):
     """
-    Plots numerical finite difference solution against semi-infinite analytical baseline[cite: 1].
+    Plots numerical finite difference solution against semi-infinite analytical baseline.
     """
     os.makedirs(os.path.dirname(save_path), exist_ok=True)
     plt.figure(figsize=(8, 5))
